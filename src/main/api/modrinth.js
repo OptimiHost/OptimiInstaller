@@ -1,6 +1,6 @@
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
-async function fetchModpackInfo(modpackId: string) {
+async function fetchModpackInfo(modpackId) {
     const response = await fetch(`https://api.modrinth.com/v2/project/${modpackId}`);
     if (!response.ok) {
         throw new Error('Failed to fetch modpack information');
@@ -8,7 +8,7 @@ async function fetchModpackInfo(modpackId: string) {
     return await response.json();
 }
 
-async function fetchModpackVersions(modpackId: string) {
+async function fetchModpackVersions(modpackId) {
     const response = await fetch(`https://api.modrinth.com/v2/project/${modpackId}/version`);
     if (!response.ok) {
         throw new Error('Failed to fetch modpack versions');
@@ -16,4 +16,4 @@ async function fetchModpackVersions(modpackId: string) {
     return await response.json();
 }
 
-export { fetchModpackInfo, fetchModpackVersions };
+module.exports = { fetchModpackInfo, fetchModpackVersions };

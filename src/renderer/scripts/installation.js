@@ -1,29 +1,26 @@
 function startInstallation() {
-    const progressBar = document.getElementById('progress-bar') as HTMLElement;
-    const statusText = document.getElementById('status-text') as HTMLElement;
+    const progressBar = document.getElementById('progress-bar');
+    const statusText = document.getElementById('status-text');
 
     if (!progressBar || !statusText) {
         console.error('Required DOM elements not found.');
         return;
     }
 
-    // Simulate installation process
     let progress = 0;
     const interval = setInterval(() => {
         if (progress < 100) {
-            progress += 10; // Increment progress
+            progress += 10;
             progressBar.style.width = progress + '%';
             statusText.innerText = `Installing... ${progress}%`;
         } else {
             clearInterval(interval);
             statusText.innerText = 'Installation Complete!';
-            // Optionally navigate to the done page after a delay
             setTimeout(() => {
                 window.location.href = 'done.html';
             }, 2000);
         }
-    }, 500); // Simulate time taken for each increment
+    }, 500);
 }
 
-// Call the function to start installation when the page loads
 window.onload = startInstallation;

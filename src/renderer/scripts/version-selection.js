@@ -1,18 +1,14 @@
-// This script populates the version list for the selected modpack on the version-selection page.
+const { fetchModpackVersions } = require('../../main/api/modrinth');
 
-import { fetchModpackVersions } from '../../main/api/modrinth';
-
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', async () => {
     const versionList = document.getElementById('version-list');
-    const nextButton = document.getElementById('next-button') as HTMLButtonElement;
+    const nextButton = document.getElementById('next-button');
 
     if (!versionList || !nextButton) {
         console.error('Required DOM elements not found.');
         return;
     }
 
-    // Retrieve selected modpack from localStorage
     const selectedModpackId = localStorage.getItem('selectedModpackId');
     if (!selectedModpackId) {
         versionList.textContent = 'No modpack selected.';
@@ -21,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        // Fetch versions from Modrinth API
         const versions = await fetchModpackVersions(selectedModpackId);
         if (!Array.isArray(versions) || versions.length === 0) {
             versionList.textContent = 'No versions found for this modpack.';
@@ -29,9 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Populate version list as radio buttons
         versionList.innerHTML = '';
-        versions.forEach((version: any, idx: number) => {
+        versions.forEach((version, idx) => {
             const label = document.createElement('label');
             label.style.display = 'block';
             const radio = document.createElement('input');
@@ -51,9 +45,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching versions:', error);
     }
 
-    // Handle Next button click
     nextButton.addEventListener('click', () => {
-        const selectedRadio = document.querySelector<HTMLInputElement>('input[name="modpack-version"]:checked');
+        const selectedRadio = document.querySelector('input[name="modpack-version"]:checked');
         if (selectedRadio) {
             localStorage.setItem('selectedModpackVersion', selectedRadio.value);
             window.location.href = 'directory-selection.html';

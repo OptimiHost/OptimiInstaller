@@ -1,8 +1,6 @@
-// src/renderer/scripts/modpack-selection.ts
-
 document.addEventListener('DOMContentLoaded', () => {
-    const optimiButton = document.getElementById('optimi') as HTMLButtonElement;
-    const optimiLightButton = document.getElementById('optimi-light') as HTMLButtonElement;
+    const optimiButton = document.getElementById('optimi');
+    const optimiLightButton = document.getElementById('optimi-light');
 
     optimiButton.addEventListener('click', () => {
         selectModpack('Optimi');
@@ -12,10 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         selectModpack('Optimi Light');
     });
 
-    function selectModpack(modpack: string) {
-        // Logic to handle modpack selection
+    function selectModpack(modpack) {
         console.log(`Selected modpack: ${modpack}`);
-        // Navigate to the version selection page
         window.location.href = 'version-selection.html';
     }
 });

@@ -1,7 +1,7 @@
-import { dialog } from 'electron';
-import { promises as fs } from 'fs';
+const { dialog } = require('electron');
+const { promises: fs } = require('fs');
 
-export async function selectDirectory(): Promise<string | undefined> {
+async function selectDirectory() {
     const result = await dialog.showOpenDialog({
         properties: ['openDirectory']
     });
@@ -10,7 +10,6 @@ export async function selectDirectory(): Promise<string | undefined> {
         return undefined;
     } else {
         const selectedPath = result.filePaths[0];
-        // Optionally, you can check if the directory is writable
         try {
             await fs.access(selectedPath, fs.constants.W_OK);
             return selectedPath;
@@ -20,3 +19,5 @@ export async function selectDirectory(): Promise<string | undefined> {
         }
     }
 }
+
+module.exports = { selectDirectory };

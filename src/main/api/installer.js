@@ -1,13 +1,11 @@
-// This file contains functions to handle the installation process of the selected modpack, including downloading and extracting files.
+const { app } = require('electron');
+const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
+const { extract } = require('tar');
+const { createWriteStream } = require('fs');
 
-import { app } from 'electron';
-import fs from 'fs';
-import path from 'path';
-import axios from 'axios';
-import { extract } from 'tar';
-import { createWriteStream } from 'fs';
-
-const downloadFile = async (url: string, outputPath: string) => {
+const downloadFile = async (url, outputPath) => {
     const writer = createWriteStream(outputPath);
     const response = await axios({
         url,
@@ -17,13 +15,13 @@ const downloadFile = async (url: string, outputPath: string) => {
 
     response.data.pipe(writer);
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         writer.on('finish', resolve);
         writer.on('error', reject);
     });
 };
 
-const installModpack = async (modpackUrl: string, installDir: string) => {
+const installModpack = async (modpackUrl, installDir) => {
     const modpackName = path.basename(modpackUrl);
     const outputPath = path.join(app.getPath('temp'), modpackName);
 
@@ -33,11 +31,11 @@ const installModpack = async (modpackUrl: string, installDir: string) => {
             file: outputPath,
             cwd: installDir,
         });
-        fs.unlinkSync(outputPath); // Clean up the downloaded file
+        fs.unlinkSync(outputPath);
     } catch (error) {
         console.error('Installation failed:', error);
         throw error;
     }
 };
 
-export { installModpack };
+module.exports = { installModpack };
