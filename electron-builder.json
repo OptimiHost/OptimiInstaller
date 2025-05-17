@@ -1,0 +1,36 @@
+{
+  "appId": "com.example.minecraftmodpackinstaller",
+  "productName": "Minecraft Modpack Installer",
+  "files": [
+    "dist/**/*",
+    "assets/**/*",
+    "src/**/*"
+  ],
+  "directories": {
+    "output": "dist"
+  },
+  "mac": {
+    "category": "public.app-category.games",
+    "target": [
+      "dmg",
+      "zip"
+    ]
+  },
+  "win": {
+    "target": [
+      "nsis",
+      "zip"
+    ]
+  },
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb"
+    ]
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "your-github-username",
+    "repo": "minecraft-modpack-installer"
+  }
+}
